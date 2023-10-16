@@ -77,8 +77,7 @@
       mysqli_set_charset($connection, "utf8");
       $name = "modelo_" . strtolower($_POST['title']);
       $sql =  'CREATE TABLE `' . $name . '` (';
-      $sql .= '`alternativa` varchar(32) NOT NULL, ';
-      $sql .= '`peso` int(5) default 0 ';
+      $sql .= '`alternativa` varchar(32) NOT NULL ';
       foreach ($_POST as $chave => $valor) {
         if (substr($chave, 0, 1) == "C") {
           $sql .= ', `' . strtolower($valor) . '` int(5) default 0';
@@ -98,10 +97,15 @@
             }
           }
         }
+        $sql  = "INSERT INTO " . $name . "(alternativa) VALUES ('peso')";
+        $result = mysqli_query($connection, $sql);
+        if (!$result) {
+          die("A inclusão do peso falhou: ".mysqli_error($connection));
+        }    
       }
     ?>
     <h5>Criação da matriz efetuada com êxito!</h5>
-    <a href="index">voltar ao índice</a>
+    <a href="index.php">voltar ao índice</a>
   <?php endif ; ?>
 <?php endif ; ?>
 </body>
