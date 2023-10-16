@@ -7,10 +7,7 @@
 <h1>Electre</h1>
 <hr>
 <?php
-  $host = "localhost";
-  $user = "root";
-  $pass = "";
-  $db   = "electre";
+  require 'credentials.php';
   $connection = new MySQLi($host, $user, $pass, $db);
   if ($connection->connect_errno) {
     die("Erro na conexão: ".mysqli_connect_error());
@@ -57,10 +54,8 @@
         <td>
           <?php if ($col == 0) : ?>
             <?= $valor ?>
-          <?php elseif ($i == count($rows)-1) : ?>
-            <input type="number" value="" name="peso-<?=$col?>" maxlength="2"/>  
           <?php else :?>
-            <input type="number" value="" name="crit<?=$i+1?><?=$col?>" maxlength="2"/>
+            <input type="number" name="crit<?=$i+1?><?=$col?>" value="<?= $valor ?>"/>
           <?php endif; ?>    
         </td>
         <?php
@@ -78,11 +73,27 @@
   </table>
   </form>
 <?php else : ?>
-    <pre>
-    
-    <?php print_r($_POST) ?>
-    
-    </pre>
+  <?php
+    for ($i = 0; $i < count($rows); $i++) {
+      $j = 0;
+      $sql = "UPDATE modelo_" . $_GET['table'] . " SET ";
+      foreach ($rows[$i] as $chave => $valor) {
+        $key = 'crit' . ($i+1) . ($j+1);
+        if ($chave != 'alternativa') {
+          $sql .= $chave . " = " . $_POST[$key] . ",";
+          $j++;
+        } 
+      }
+      $sql = substr($sql, 0, -1);  
+      $sql .= " WHERE alternativa = '" . $rows[$i]['alternativa'] . "'";
+      $result = mysqli_query($connection, $sql);
+      if (!$result) {
+        die("A alteração falhou: ".mysqli_error($connection));
+      }     
+    }  
+  ?>
+  <h5>Alteração da matriz efetuada com êxito!</h5>
+  <a href="index.php">voltar ao índice</a>
 <?php endif ; ?>
 </body>
 </html>

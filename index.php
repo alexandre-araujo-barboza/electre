@@ -7,10 +7,7 @@
 <h1>Electre</h1>
 <hr>
 <?php
-  $host = "localhost";
-  $user = "root";
-  $pass = "";
-  $db   = "electre";
+  require 'credentials.php';
   $connection = new MySQLi($host, $user, $pass, $db);
   if ($connection->connect_errno) {
     die("Erro na conexão: ".mysqli_connect_error());
