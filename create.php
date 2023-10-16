@@ -44,12 +44,14 @@
           <?php for ($i=0, $j=1; $i < $_POST['rows']; $i++, $j++) : ?>
             <li>Alt<?= $j ?>:&nbsp;<input type="text" name="L<?= $j ?>" maxlength="32" />
           <?php endfor ; ?> 
+          </ol>
         </td>     
         <td>
           <ol>colunas (Critérios)
           <?php for ($i=0, $j=1; $i < $_POST['cols']; $i++, $j++) : ?>
             <li>Crit<?= $j ?>:&nbsp;<input type="text" name="C<?= $j ?>" maxlength="32"/>
           <?php endfor ; ?>
+          </ol>
         </td>     
       </tr>
       <tr>
