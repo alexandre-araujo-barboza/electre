@@ -77,18 +77,15 @@
     }
     echo "</ol>";
   ?>
-  <h5>índice de Concordância:</h5>
-  <?php
+  <?php // índices de Concordância:
     $concordance = array();
-    $size = 1;
+    $size = count($matrix[0]);
     for ($i = 0; $i < count($matrix); $i++) {
       for ($j = 0; $j < count($matrix); $j++) {
         $sum  = 0;
-        $size = count($matrix[$i]);
         for ($k = 0; $k < count($matrix[$i]); $k++) {
           if ($i != $j) {
             if ($matrix[$i][$k] >= $matrix[$j][$k]) {
-              echo $matrix[$i][$k] . " supera " . $matrix[$j][$k] . " ";
               $sum += $normal[$k];
             }
           }
@@ -108,11 +105,29 @@
       }
       $matConcord[$row][$col] = $concordance[$i];
     }
-    
-    echo "<pre>";
-    print_r($matConcord);
-    echo "</pre>";
-  
- ?>
+?>
+<h5>Matriz de Concordância:</h5>
+<table style="border:0;">
+  <tr>
+    <th>&nbsp;</th>
+    <?php for ($i = 0; $i < count($matConcord[0]); $i++) : ?>
+      <th><?= "alt" . ($i+1) ?></th>
+    <?php endfor ;?>
+  </tr>
+  <?php for ($i = 0; $i < count($matConcord); $i++) : ?>
+    <tr>      
+      <td><b>alt<?= ($i+1) ?></b></td>
+      <?php for ($j = 0; $j < count($matConcord); $j++) : ?>
+        <td style = "text-align:center;">
+          <?php if ($i == $j) : ?>
+            <span>-</span>
+          <?php else :?>  
+            <?= $matConcord[$i][$j] ?>
+          <?php endif ; ?>  
+        </td>
+      <?php endfor ;?>
+    </tr>
+  <?php endfor ;?>    
+</table>    
 </body>  
 </html>
