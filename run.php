@@ -89,7 +89,6 @@
           if ($i != $j) {
             if ($matrix[$i][$k] >= $matrix[$j][$k]) {
               echo $matrix[$i][$k] . " supera " . $matrix[$j][$k] . " ";
-              echo "<br/>NORMAL: " . $normal[$k] ."<br/>";
               $sum += $normal[$k];
             }
           }
@@ -97,29 +96,23 @@
         $concordance[] = $sum;
       }
     }
-
-    echo "<pre>";
-    print_r($concordance);
-    echo "</pre>";
-    
-    echo "SIZE:" . $size;
-
     $matConcord = array(); 
-    $row = 0;
+    $row = -1;
+    $col = 0;
     for ($i = 0; $i < count($concordance); $i++) {
-      $col = 0;
-      if ($i+1 % $size == 0) {
-          $row++;  
+      if ($i %($size+1) == 0) {
+          $row++;
+          $col = 0;  
       } else {
         $col++;
       }
-     
       $matConcord[$row][$col] = $concordance[$i];
-      echo "<pre>";
-      print_r($matConcord);
-      echo "</pre>";
-        
     }
+    
+    echo "<pre>";
+    print_r($matConcord);
+    echo "</pre>";
+  
  ?>
 </body>  
 </html>
