@@ -76,6 +76,50 @@
       echo "<li>Peso (" . $fields[$i+1]. "): " . $normal[$i] . "</li>";
     }
     echo "</ol>";
-  ?> 
+  ?>
+  <h5>índice de Concordância:</h5>
+  <?php
+    $concordance = array();
+    $size = 1;
+    for ($i = 0; $i < count($matrix); $i++) {
+      for ($j = 0; $j < count($matrix); $j++) {
+        $sum  = 0;
+        $size = count($matrix[$i]);
+        for ($k = 0; $k < count($matrix[$i]); $k++) {
+          if ($i != $j) {
+            if ($matrix[$i][$k] >= $matrix[$j][$k]) {
+              echo $matrix[$i][$k] . " supera " . $matrix[$j][$k] . " ";
+              echo "<br/>NORMAL: " . $normal[$k] ."<br/>";
+              $sum += $normal[$k];
+            }
+          }
+        }
+        $concordance[] = $sum;
+      }
+    }
+
+    echo "<pre>";
+    print_r($concordance);
+    echo "</pre>";
+    
+    echo "SIZE:" . $size;
+
+    $matConcord = array(); 
+    $row = 0;
+    for ($i = 0; $i < count($concordance); $i++) {
+      $col = 0;
+      if ($i+1 % $size == 0) {
+          $row++;  
+      } else {
+        $col++;
+      }
+     
+      $matConcord[$row][$col] = $concordance[$i];
+      echo "<pre>";
+      print_r($matConcord);
+      echo "</pre>";
+        
+    }
+ ?>
 </body>  
 </html>
