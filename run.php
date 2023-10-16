@@ -128,6 +128,62 @@
       <?php endfor ;?>
     </tr>
   <?php endfor ;?>    
-</table>    
+</table>
+<?php
+  $omega = array();
+  for ($i = 0; $i < count($matrix[0]); $i++) {
+    $min = 99999999999;
+    $max = -1;
+    for ($j = 0; $j < count($matrix); $j++) {
+      $current = $matrix[$j][$i];
+      if ($current < $min) {
+         $min = $current;
+      }
+      if ($current > $max) {
+        $max = $current;
+      }
+      $omega[$i] = $max - $min;
+    }
+  }
+?>
+<h5>Calculo de ômega:</h5>
+<ol>
+<?php for ($i = 0; $i < count($omega); $i++) : ?>
+  <li>ômega (<?= $fields[$i+1] ?>): <?= $omega[$i] ?></li>
+<?php endfor; ?>
+<?php  // índices de Discordância:
+  $discordance = array();
+  $maxPositive = 0;
+  for ($i = 0; $i < count($matrix); $i++) {
+    for ($j = 0; $j < count($matrix); $j++) {
+      $dif  = array();
+      for ($k = 0; $k < count($matrix[$i]); $k++) {
+        if ($i != $j) {
+          //echo $matrix[$i][$k] . "<br />";
+          //echo $matrix[$j][$k] . "<br />";
+          for ($l = 0; $l < count($matrix[0]); $l++) {
+            $dif[$l] = ($matrix[$j][$l] - $matrix[$i][$l]) / $omega[$l];
+            //echo $dif[$l] . "<br />";
+          }
+        }
+      }
+      if (count($dif) > 0) {
+        $maxPositive = max($dif);
+        //echo $maxPositive . "<br />";
+        $discordance[] = $maxPositive;
+      }
+    }
+    //echo "<br/>";
+  }
+  echo "<pre>";
+  print_r($discordance);
+  echo "</pre>";
+  
+  
+?>
+índice de Discordância:
+d12 = (alt2 - alt1) / ÔMEGA
+
+    
 </body>  
 </html>
