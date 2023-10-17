@@ -60,7 +60,7 @@
           <?php if ($col == 0) : ?>
             <?= $valor ?>
           <?php else :?>
-            <input type="number" name="crit<?=$i+1?><?=$col?>" value="<?= $valor ?>"/>
+            <input type="number" step="any" name="crit<?=$i+1?><?=$col?>" value="<?= $valor ?>"/>
           <?php endif; ?>    
         </td>
         <?php
