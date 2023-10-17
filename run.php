@@ -82,8 +82,14 @@
     echo "</ol>";
   ?>
   <?php // índices de Concordância:
+    /*
+    echo "<pre>";
+    print_r($matrix);
+    echo "</pre>";
+    echo "SIZE: " . count($matrix) . "<br />";
+    */
     $concordance = array();
-    $size = count($matrix[0]);
+    $size = count($matrix);
     for ($i = 0; $i < count($matrix); $i++) {
       for ($j = 0; $j < count($matrix); $j++) {
         $sum  = 0;
@@ -97,11 +103,20 @@
         $concordance[] = $sum;
       }
     }
+    /*
+    echo "<pre>";
+    print_r($concordance);
+    echo "</pre>";
+    */
     $matConcord = array(); 
     $row = -1;
     $col = 0;
     for ($i = 0; $i < count($concordance); $i++) {
-      if ($i %($size+1) == 0) {
+      
+      //echo $size;
+      //echo "<br />";
+
+      if ($i %($size) == 0) {
           $row++;
           $col = 0;  
       } else {
@@ -109,6 +124,11 @@
       }
       $matConcord[$row][$col] = $concordance[$i];
     }
+    /*
+    echo "<pre>";
+    print_r($matConcord);
+    echo "</pre>";
+    */
 ?>
 <h5>Matriz de Concordância:</h5>
 <table style="border:0;">
@@ -178,11 +198,11 @@
       }
     }
   }
-  $matDiscord = array(); 
+  $matDiscord = array();
   $row = -1;
   $col = 0;
   for ($i = 0; $i < count($discordance); $i++) {
-    if ($i %($size) == 0) {
+    if ($i %($size-1) == 0) {
       $row++;
       $col = 0;  
     } else {
@@ -195,6 +215,11 @@
     $matDiscord[$row][$col] = $discordance[$i];
   }
   $matDiscord[$row][$col +1] = "-";
+  /*
+  echo "<pre>";
+  print_r($matDiscord);
+  echo "</pre>";
+  */ 
 ?>
 <h5>Matriz de Discordância:</h5>
 <table style="border:0;">
