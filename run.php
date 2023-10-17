@@ -93,12 +93,6 @@
     echo "</ol>";
   ?>
   <?php // índices de Concordância:
-    /*
-    echo "<pre>";
-    print_r($matrix);
-    echo "</pre>";
-    echo "SIZE: " . count($matrix) . "<br />";
-    */
     $concordance = array();
     $size = count($matrix);
     for ($i = 0; $i < count($matrix); $i++) {
@@ -114,19 +108,10 @@
         $concordance[] = $sum;
       }
     }
-    /*
-    echo "<pre>";
-    print_r($concordance);
-    echo "</pre>";
-    */
     $matConcord = array(); 
     $row = -1;
     $col = 0;
     for ($i = 0; $i < count($concordance); $i++) {
-      
-      //echo $size;
-      //echo "<br />";
-
       if ($i %($size) == 0) {
           $row++;
           $col = 0;  
@@ -135,11 +120,6 @@
       }
       $matConcord[$row][$col] = $concordance[$i];
     }
-    /*    
-    echo "<pre>";
-    print_r($matConcord);
-    echo "</pre>";
-    */
 ?>
 <h5>Matriz de Concordância:</h5>
 <table style="border:0;">
@@ -226,11 +206,6 @@
     $matDiscord[$row][$col] = $discordance[$i];
   }
   $matDiscord[$row][$col +1] = "-";
-  /*
-  echo "<pre>";
-  print_r($matDiscord);
-  echo "</pre>";
-  */ 
 ?>
 <h5>Matriz de Discordância:</h5>
 <table style="border:0;">
@@ -273,7 +248,7 @@
   $sumP = 0;
   for ($i = 0; $i < count($matDiscord); $i++) {
     for ($j = 0; $j < count($matDiscord[$i]); $j++) {
-      if ($matDiscord[$i][$j] != "-") {
+      if (is_numeric($matDiscord[$i][$j])) {
         $sumP += $matDiscord[$i][$j];
       }
     }
@@ -303,8 +278,78 @@
 </ol>  
 
 <?php // Matriz de superação
+  $supera = array();
+  for ($i = 0; $i < count($matConcord); $i++) {
+    for ($j = 0; $j < count($matConcord[$i]); $j++) {
+      if ($i != $j) {
+        if ($matConcord[$i][$j] > $pr && $matDiscord[$i][$j] < $qr) {
+          $supera[] = "1"; 
+        } else {
+          $supera[] = "0";
+        }
+      } else {
+        $supera[] = "-";
+      }
+    }
+  }
+  $matSupera = array();
+  $row = -1;
+  $col = 0;
+  for ($i = 0; $i < count($supera); $i++) {
+    if ($i %($size) == 0) {
+      $row++;
+      $col = 0;  
+    } else {
+      $col++;
+    }
+    $matSupera[$row][$col] = $supera[$i];
+  }
+?>
+<h5>Matriz de Superação:</h5>
+<table style="border:0;">
+  <tr>
+    <th>&nbsp;</th>
+    <?php for ($i = 0; $i < count($matSupera[0]); $i++) : ?>
+      <th><?= "alt" . ($i+1) ?></th>
+    <?php endfor ;?>
+  </tr>
+  <?php for ($i = 0; $i < count($matSupera); $i++) : ?>
+    <tr>      
+      <td><b>alt<?= ($i+1) ?></b></td>
+      <?php for ($j = 0; $j < count($matSupera); $j++) : ?>
+        <td style = "text-align:center;">
+            <?= $matSupera[$i][$j] ?>
+        </td>
+      <?php endfor ;?>
+    </tr>
+  <?php endfor ;?>    
+</table>
+<?php // Dominância
+  $dominance = array();
+  for ($i = 0; $i < count($matSupera); $i++) {
+    $add = '';
+    for ($j = 0; $j < count($matSupera[$i]); $j++) {
+      $vector = $matSupera[$i][$j];
+      if ($vector == 1) {
+        $add .= $rows[$j]['alternativa'] . ", ";  
+      }
+    }
+    $add = substr($add, 0, -2);
+    $dominance[$i][0] = $add;
+  }
+  
+  for ($i = 0; $i < count($matSupera); $i++) {
+    for ($j = 0; $j < count($matSupera[$i]); $j++) {
+      
+    }
+  }
+
+  echo "<pre>";
+  print_r($dominance);
+  echo "</pre>";
 
 ?>
+
 
 </body>  
 </html>
