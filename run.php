@@ -337,13 +337,40 @@
     $add = substr($add, 0, -2);
     $dominance[$i][0] = $add;
   }
-  
+  $swapDomina = array();
   for ($i = 0; $i < count($matSupera); $i++) {
     for ($j = 0; $j < count($matSupera[$i]); $j++) {
+      $swap = $matSupera[$i][$j];
+      $swapDomina[$j][$i] = $swap; 
+    }
+  }
+  for ($i = 0; $i < count($swapDomina); $i++) {
+    $add = '';
+    for ($j = 0; $j < count($swapDomina[$i]); $j++) {
+      $vector = $swapDomina[$i][$j];
+      if ($vector == 1) {
+        $add .= $rows[$j]['alternativa'] . ", ";  
+      }
+    }
+    $add = substr($add, 0, -2);
+    $dominance[$i][1] = $add;
+  }
+  for ($i = 0; $i < count($dominance); $i++) {
+    $countLines = $countColumns = 0;
+    if (!empty($dominance[$i][0])) {
+      $countLines = substr_count($dominance[$i][0], ", ") + 1;
+    }
+    if (!empty($dominance[$i][1])) {
+      $countColumns = substr_count($dominance[$i][1], ", ") + 1;
+    }
+    $dominance[$i][2] = $countLines - $countColumns; 
+  }
+  $rank = 0;
+  for ($i = 0; $i < count($dominance); $i++) {
+    if ($dominance[$i][2]) {
       
     }
   }
-
   echo "<pre>";
   print_r($dominance);
   echo "</pre>";
