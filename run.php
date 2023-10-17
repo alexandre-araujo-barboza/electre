@@ -415,6 +415,8 @@
   <?php endfor; ?>  
 </table>
 <h5>Melhor escolha:</h5>
-<h4>Sua melhor escolha é: [<span style="color:blue;font-size:x-large;"><?= $bestChoice ?></span>].</h4>
+<h4>Sua melhor escolha é: [&nbsp;<span style="color:blue;font-size:x-large;"><?= $bestChoice ?></span>&nbsp;].</h4>
+<h5>Execução do método Electre efetuada com êxito!</h5>
+<a href="index.php">voltar ao índice</a>
 </body>  
 </html>
