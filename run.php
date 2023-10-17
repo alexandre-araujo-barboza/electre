@@ -148,9 +148,10 @@
 ?>
 <h5>Calculo de ômega:</h5>
 <ol>
-<?php for ($i = 0; $i < count($omega); $i++) : ?>
-  <li>ômega (<?= $fields[$i+1] ?>): <?= $omega[$i] ?></li>
-<?php endfor; ?>
+  <?php for ($i = 0; $i < count($omega); $i++) : ?>
+    <li>ômega (<?= $fields[$i+1] ?>): <?= $omega[$i] ?></li>
+  <?php endfor; ?>
+</ol>
 <?php  // índices de Discordância:
   $discordance = array();
   $maxPositive = 0;
@@ -159,31 +160,60 @@
       $dif  = array();
       for ($k = 0; $k < count($matrix[$i]); $k++) {
         if ($i != $j) {
-          //echo $matrix[$i][$k] . "<br />";
-          //echo $matrix[$j][$k] . "<br />";
           for ($l = 0; $l < count($matrix[0]); $l++) {
             $dif[$l] = ($matrix[$j][$l] - $matrix[$i][$l]) / $omega[$l];
-            //echo $dif[$l] . "<br />";
           }
         }
       }
       if (count($dif) > 0) {
         $maxPositive = max($dif);
-        //echo $maxPositive . "<br />";
+        if ($maxPositive < 0) {
+          $maxPositive = 0;
+        }
         $discordance[] = $maxPositive;
       }
     }
-    //echo "<br/>";
   }
-  echo "<pre>";
-  print_r($discordance);
-  echo "</pre>";
-  
-  
+  $matDiscord = array(); 
+  $row = -1;
+  $col = 0;
+  for ($i = 0; $i < count($discordance); $i++) {
+    if ($i %($size) == 0) {
+      $row++;
+      $col = 0;  
+    } else {
+      $col++;
+    }
+    if ($row == $col) {
+      $matDiscord[$row][$col] = "-";  
+      $col++;
+    }
+    $matDiscord[$row][$col] = $discordance[$i];
+  }
+  $matDiscord[$row][$col +1] = "-";
 ?>
-índice de Discordância:
-d12 = (alt2 - alt1) / ÔMEGA
-
+<h5>Matriz de Discordância:</h5>
+<table style="border:0;">
+  <tr>
+    <th>&nbsp;</th>
+    <?php for ($i = 0; $i < count($matDiscord[0]); $i++) : ?>
+      <th><?= "alt" . ($i+1) ?></th>
+    <?php endfor ;?>
+  </tr>
+  <?php for ($i = 0; $i < count($matDiscord); $i++) : ?>
+    <tr>      
+      <td><b>alt<?= ($i+1) ?></b></td>
+      <?php for ($j = 0; $j < count($matDiscord); $j++) : ?>
+        <td style = "text-align:center;">
+          <?= $matDiscord[$i][$j] ?>
+        </td>  
+      <?php endfor ;?>
+    </tr>
+  <?php endfor ;?>    
+</table>
     
+
+
+
 </body>  
 </html>
