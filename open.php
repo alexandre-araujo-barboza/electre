@@ -7,6 +7,10 @@
 <h1>Electre</h1>
 <hr>
 <?php
+  if (!isset($_GET['table'])) {
+    echo '<span style="color:red;">Consulta inválida!</span>';
+    exit;
+  }
   require 'credentials.php';
   $connection = new MySQLi($host, $user, $pass, $db);
   if ($connection->connect_errno) {
