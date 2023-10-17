@@ -1,6 +1,7 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <meta name="author" content="Alexandre Araujo Barbosa">
   <title>Electre</title>
 </head>
 <body>
@@ -17,6 +18,20 @@
         }
       }
     }
+  }
+  function arrayRanking( $in ) {
+    $x = $in; arsort($x); 
+    $rank       = 0; 
+    $hiddenrank = 0;
+    $hold = null;
+    foreach ( $x as $key=>$val ) {
+      $hiddenrank += 1;
+      if (is_null($hold) || $val < $hold ) {
+        $rank = $hiddenrank; $hold = $val;
+      }    
+      $in[$key] = $rank;
+    }  
+    return $in; 
   }
   if (!isset($_GET['table'])) {
     echo '<span style="color:red;">Consulta inválida!</span>';
@@ -365,18 +380,41 @@
     }
     $dominance[$i][2] = $countLines - $countColumns; 
   }
-  $rank = 0;
+  $part = array();
   for ($i = 0; $i < count($dominance); $i++) {
-    if ($dominance[$i][2]) {
-      
-    }
+    $part[] = $dominance[$i][2];
   }
-  echo "<pre>";
-  print_r($dominance);
-  echo "</pre>";
-
+  $ranked = arrayRanking($part);;
+  for ($i = 0; $i < count($dominance); $i++) {
+    $dominance[$i][3] = $ranked[$i];
+  }
+  // Melhor opção
+  for ($i = 0; $i < count($ranked); $i++) {
+    if ($ranked[$i] == 1) {
+      $bestChoice = $rows[$i]['alternativa'];
+    }  
+  }
 ?>
-
-
+<h5>Matriz de Dominancia:</h5>
+<table style="border:0;">
+  <tr>
+    <th>&nbsp;</th>
+    <th>Por linha</th>
+    <th>Por coluna</th>
+    <th>Diferença</th>
+    <th>Preferência</th>
+  </tr>
+  <?php for ($i = 0; $i < count($dominance); $i++) : ?>  
+    <tr>
+      <td>Alt<?= ($i+1) ?></td>
+      <td><?=$dominance[$i][0]?></td>
+      <td><?=$dominance[$i][1]?></td>
+      <td><?=$dominance[$i][2]?></td>
+      <td><?=$dominance[$i][3]?></td>
+    </tr>
+  <?php endfor; ?>  
+</table>
+<h5>Melhor escolha:</h5>
+<h4>Sua melhor escolha é: [<span style="color:blue;font-size:x-large;"><?= $bestChoice ?></span>].</h4>
 </body>  
 </html>
