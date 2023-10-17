@@ -7,6 +7,17 @@
 <h1>Electre</h1>
 <hr>
 <?php
+  function bubbleSort(&$array) {
+    for($i = 0; $i < count($array); $i++) {
+      for($j = 0; $j < count($array) - 1; $j++) {
+        if($array[$j] > $array[$j + 1]) {
+          $aux = $array[$j];
+          $array[$j] = $array[$j + 1];
+          $array[$j + 1] = $aux;
+        }
+      }
+    }
+  }
   if (!isset($_GET['table'])) {
     echo '<span style="color:red;">Consulta inválida!</span>';
     exit;
@@ -124,7 +135,7 @@
       }
       $matConcord[$row][$col] = $concordance[$i];
     }
-    /*
+    /*    
     echo "<pre>";
     print_r($matConcord);
     echo "</pre>";
@@ -240,9 +251,60 @@
     </tr>
   <?php endfor ;?>    
 </table>
-    
+<?php // Umbrais
+  $sumP = 0;
+  for ($i = 0; $i < count($matConcord); $i++) {
+    for ($j = 0; $j < count($matConcord[$i]); $j++) {
+      $sumP += $matConcord[$i][$j];
+    }
+  }
+  $n = count($matConcord);
+  $div = ($n * ($n -1));
+  $sumP /= $div;
+  bubbleSort($concordance);
+  for ($i = 0; $i < count($concordance); $i++) {
+    if ($concordance[$i] > $sumP) {
+      $result = $concordance[$i];
+      break;
+    }    
+  }
+  $pl = $sumP;
+  $pr = $result;
+  $sumP = 0;
+  for ($i = 0; $i < count($matDiscord); $i++) {
+    for ($j = 0; $j < count($matDiscord[$i]); $j++) {
+      if ($matDiscord[$i][$j] != "-") {
+        $sumP += $matDiscord[$i][$j];
+      }
+    }
+  }
+  $n = count($matDiscord);
+  $div = ($n * ($n -1));
+  $sumP /= $div;
+  bubbleSort($discordance);
+  for ($i = count($discordance)-1; $i >= 0  ; $i--) {
+    if ($discordance[$i] < $sumP) {
+      $result = $discordance[$i];
+      break;
+    }    
+  }
+  $ql = $sumP;
+  $qr = $result;
+?>    
+<h5>Umbral da Preferência:</h5>
+<ol>
+  <li>média (P):<b> <?= $pl ?></b></li>
+  <li>mais próximo (P):<b> <?= $pr ?></b></li>
+</ol>  
+<h5>Umbral da Indiferença:</h5>
+<ol>
+  <li>média (Q):<b> <?= $ql ?></b></li>
+  <li>mais próximo (Q):<b> <?= $qr ?></b></li>
+</ol>  
 
+<?php // Matriz de superação
 
+?>
 
 </body>  
 </html>
