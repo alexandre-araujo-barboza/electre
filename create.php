@@ -1,6 +1,7 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <meta name="author" content="Alexandre Araujo Barbosa">
   <title>Electre</title>
 </head>
 <body>
