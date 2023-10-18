@@ -1,6 +1,6 @@
 Disciplina: 9001 - SISTEMA DE APOIO A DECISÕES-SAD<br/>
-Estácio de Sá - Pós graduação em Arquitetura em Cloud Computing
----------------------------------------------------------------
+Estácio de Sá - Pós graduação em Arquitetura e Projetos de Cloud Computing
+--------------------------------------------------------------
 
 <b>ELECTRE</b> - Apoio Multicritério à Decisão, por Eliminação e Escolha como Expressão da Realidade.
 
