@@ -15,3 +15,6 @@ versão do PHP: 7.4.29
 4. copiar os arquivos baixados do GIT para uma subpasta em xampp/htdocs.
 5. Abrir no navegador no endereço da subpasta criada.
 
+-------------------------------------------------------------------------------------------------
+
+Demo: https://alexandrebarboza.freevar.com/electre
