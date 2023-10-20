@@ -85,7 +85,7 @@
       foreach ($rows[$i] as $chave => $valor) {
         $key = 'crit' . ($i+1) . ($j+1);
         if ($chave != 'alternativa') {
-          $sql .= $chave . " = " . $_POST[$key] . ",";
+          $sql .= "`" . $chave . "` = " . $_POST[$key] . ",";
           $j++;
         } 
       }
