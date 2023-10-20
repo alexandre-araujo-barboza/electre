@@ -107,6 +107,38 @@
     }
     echo "</ol>";
   ?>
+  <h5>Normalização dos índices:</h5>
+  <?php 
+    $sumColumn = array();
+    for ($i = 0 ; $i < count($weight); $i++) {
+      $sumColumn[$i] = 0;
+    }
+    for ($i = 0 ; $i < count($matrix); $i++) {
+      for ($j = 0 ; $j < count($matrix[$i]); $j++) {
+        $sumColumn[$j] += $matrix[$i][$j];
+      }
+    }
+    for ($i = 0 ; $i < count($matrix); $i++) {
+      for ($j = 0 ; $j < count($matrix[$i]); $j++) {
+        $matrix[$i][$j] = ($matrix[$i][$j] / $sumColumn[$j]); 
+      }
+    }
+  ?>
+  <table style="border:0;">
+    <tr>
+      <?php for ($i = 0; $i < count($fields); $i++) :?>
+       <th><?= $fields[$i] ?></th>
+      <?php endfor; ?>
+    </tr>
+    <?php for ($i = 0; $i < count($matrix); $i++) :?>
+    <tr>
+      <td><?= $rows[$i]['alternativa'] ?></td>
+      <?php for ($j = 0; $j < count($matrix[$i]); $j++) :?>
+        <td><?= $matrix[$i][$j] ?></td>
+      <?php endfor; ?>
+    </tr>
+    <?php endfor; ?>  
+  </table>
   <?php // índices de Concordância:
     $concordance = array();
     $size = count($matrix);

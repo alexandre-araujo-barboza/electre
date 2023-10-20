@@ -80,7 +80,7 @@
       $sql .= '`alternativa` varchar(32) NOT NULL ';
       foreach ($_POST as $chave => $valor) {
         if (substr($chave, 0, 1) == "C") {
-          $sql .= ', `' . strtolower($valor) . '` float(7,4) default 0';
+          $sql .= ', `' . strtolower($valor) . '` float(9,2) default 0';
         }
       }
       $sql .= ') ENGINE=InnoDB DEFAULT CHARSET=utf8;';
