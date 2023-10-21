@@ -103,7 +103,7 @@
     echo "<ol>";
     for ($i = 0 ; $i < count($weight); $i++) {
       $normal[$i] = $weight[$i] / $sum;
-      echo "<li>Peso (" . $fields[$i+1]. "): " . $normal[$i] . "</li>";
+      echo "<li>Peso (" . $fields[$i+1]. "): " . round($normal[$i], 3) . "</li>";
     }
     echo "</ol>";
   ?>
@@ -134,7 +134,7 @@
     <tr>
       <td><?= $rows[$i]['alternativa'] ?></td>
       <?php for ($j = 0; $j < count($matrix[$i]); $j++) :?>
-        <td><?= $matrix[$i][$j] ?></td>
+        <td><?= round($matrix[$i][$j], 3) ?></td>
       <?php endfor; ?>
     </tr>
     <?php endfor; ?>  
@@ -184,7 +184,7 @@
           <?php if ($i == $j) : ?>
             <span>-</span>
           <?php else :?>  
-            <?= $matConcord[$i][$j] ?>
+            <?= round($matConcord[$i][$j], 3) ?>
           <?php endif ; ?>  
         </td>
       <?php endfor ;?>
@@ -211,7 +211,7 @@
 <h5>Calculo de ômega:</h5>
 <ol>
   <?php for ($i = 0; $i < count($omega); $i++) : ?>
-    <li>ômega (<?= $fields[$i+1] ?>): <?= $omega[$i] ?></li>
+    <li>ômega (<?= $fields[$i+1] ?>): <?= round($omega[$i], 3) ?></li>
   <?php endfor; ?>
 </ol>
 <?php  // índices de Discordância:
@@ -267,7 +267,7 @@
       <td><b>alt<?= ($i+1) ?></b></td>
       <?php for ($j = 0; $j < count($matDiscord); $j++) : ?>
         <td style = "text-align:center;">
-          <?= $matDiscord[$i][$j] ?>
+          <?= is_numeric($matDiscord[$i][$j]) ? round($matDiscord[$i][$j], 3) : $matDiscord[$i][$j] ?>
         </td>  
       <?php endfor ;?>
     </tr>
@@ -315,13 +315,13 @@
 ?>    
 <h5>Umbral da Preferência:</h5>
 <ol>
-  <li>média (P):<b> <?= $pl ?></b></li>
-  <li>mais próximo (P):<b> <?= $pr ?></b></li>
+  <li>média (P):<b> <?= round($pl, 3) ?></b></li>
+  <li>mais próximo (P):<b> <?= round($pr, 3) ?></b></li>
 </ol>  
 <h5>Umbral da Indiferença:</h5>
 <ol>
-  <li>média (Q):<b> <?= $ql ?></b></li>
-  <li>mais próximo (Q):<b> <?= $qr ?></b></li>
+  <li>média (Q):<b> <?= round($ql, 3) ?></b></li>
+  <li>mais próximo (Q):<b> <?= round($qr, 3) ?></b></li>
 </ol>  
 
 <?php // Matriz de superação
