@@ -96,7 +96,8 @@
   <?php endfor ;?>
 </table>
   <h5>Normalização dos pesos:</h5>
-  <?php 
+  <?php
+    //$meta = array_pop($matrix); 
     $weight = array_pop($matrix);
     $sum    = array_sum($weight);
     $normal = array();
@@ -148,6 +149,8 @@
         for ($k = 0; $k < count($matrix[$i]); $k++) {
           if ($i != $j) {
             if ($matrix[$i][$k] >= $matrix[$j][$k]) {
+             //if ((($matrix[$i][$k] >= $matrix[$j][$k] && $meta[$k] ==  1) ||
+                // ($matrix[$i][$k] <  $matrix[$j][$k] && $meta[$k] == -1))) {
               $sum += $normal[$k];
             }
           }

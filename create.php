@@ -69,6 +69,10 @@
     </form>
   <?php elseif (isset($_POST['title'])) : ?>
     <?php
+      if (empty($_POST['title'])) {
+        echo '<span style="color:red;">Operação inválida!</span>';
+        exit;
+      }
       require 'credentials.php';
       $connection = new MySQLi($host, $user, $pass, $db);
       if ($connection->connect_errno) {
