@@ -149,8 +149,8 @@
         for ($k = 0; $k < count($matrix[$i]); $k++) {
           if ($i != $j) {
             if ($matrix[$i][$k] >= $matrix[$j][$k]) {
-             //if ((($matrix[$i][$k] >= $matrix[$j][$k] && $meta[$k] ==  1) ||
-                // ($matrix[$i][$k] <  $matrix[$j][$k] && $meta[$k] == -1))) {
+            // if ((($matrix[$i][$k] >= $matrix[$j][$k] && $meta[$k] ==  1) ||
+            //      ($matrix[$i][$k] <  $matrix[$j][$k] && $meta[$k] == -1))) {
               $sum += $normal[$k];
             }
           }
@@ -223,13 +223,17 @@
   for ($i = 0; $i < count($matrix); $i++) {
     for ($j = 0; $j < count($matrix); $j++) {
       $dif  = array();
-      for ($k = 0; $k < count($matrix[$i]); $k++) {
+      //for ($k = 0; $k < count($matrix[$i]); $k++) {
         if ($i != $j) {
           for ($l = 0; $l < count($matrix[0]); $l++) {
-            $dif[$l] = ($matrix[$j][$l] - $matrix[$i][$l]) / $omega[$l];
+            //if ($meta[$l] == 1) {
+              $dif[$l] = ($matrix[$j][$l] - $matrix[$i][$l]) / $omega[$l];
+            //} else if ($meta[$l] == -1) {
+              //$dif[$l] = ($matrix[$i][$l] - $matrix[$j][$l]) / $omega[$l];
+            //}  
           }
         }
-      }
+      //}
       if (count($dif) > 0) {
         $maxPositive = max($dif);
         if ($maxPositive < 0) {
