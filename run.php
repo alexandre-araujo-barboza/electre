@@ -19,15 +19,17 @@
       }
     }
   }
-  function arrayRanking( $in ) {
-    $x = $in; arsort($x); 
+  function arrayRanking($in) {
+    $x = $in;
+    arsort($x); 
     $rank       = 0; 
     $hiddenrank = 0;
     $hold = null;
-    foreach ( $x as $key=>$val ) {
+    foreach ($x as $key => $val) {
       $hiddenrank += 1;
-      if (is_null($hold) || $val < $hold ) {
-        $rank = $hiddenrank; $hold = $val;
+      if (is_null($hold) || $val < $hold) {
+        $rank = $hiddenrank;
+        $hold = $val;
       }    
       $in[$key] = $rank;
     }  
