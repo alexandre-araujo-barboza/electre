@@ -36,6 +36,12 @@
   </form>
 <?php else : ?>
   <?php if (isset($_POST['rows']) && isset($_POST['cols'])) : ?>
+    <?php if ((empty($_POST['rows']) || $_POST['rows'] < 2) || (empty($_POST['cols']) || $_POST['cols'] < 2)) :?>
+      <span style="color:red;">Operação inválida!</span>
+      <?php
+        exit;
+      ?>
+    <?php endif ;?>
     <form method="post" action="" accept-charset="UTF-8">
     <h4>Propriedades da matriz:</h4>
     <table style="border:0;">
