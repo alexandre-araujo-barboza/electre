@@ -85,6 +85,15 @@
     ?>    
     <?php  foreach ($rows[$i] as $chave => $valor) :?>
       <td>
+        <?php 
+          if ($rows[$i]['alternativa'] == 'meta') {
+            if ($valor == 1) {
+              $valor = "MAX"; 
+            } else if ($valor == -1) {
+              $valor = "MIN";
+            }
+          }
+        ?>
         <?= $valor ?>  
         <?php
           if ($col > 0) {
@@ -101,7 +110,7 @@
 </table>
   <h5>Normalização dos pesos:</h5>
   <?php
-    //$meta = array_pop($matrix); 
+    $meta = $rows[count($rows)-1]['alternativa'] == 'meta' ? array_pop($matrix) : null; 
     $weight = array_pop($matrix);
     $sum    = array_sum($weight);
     $normal = array();
@@ -152,10 +161,15 @@
         $sum  = 0;
         for ($k = 0; $k < count($matrix[$i]); $k++) {
           if ($i != $j) {
-            if ($matrix[$i][$k] >= $matrix[$j][$k]) {
-            // if ((($matrix[$i][$k] >= $matrix[$j][$k] && $meta[$k] ==  1) ||
-            //      ($matrix[$i][$k] <  $matrix[$j][$k] && $meta[$k] == -1))) {
-              $sum += $normal[$k];
+            if ($meta == null) {
+              if ($matrix[$i][$k] >= $matrix[$j][$k]) {
+                $sum += $normal[$k];
+              }
+            } else {
+              if ((($matrix[$i][$k] >= $matrix[$j][$k] && $meta[$k] ==  "MAX") ||
+                   ($matrix[$i][$k] <  $matrix[$j][$k] && $meta[$k] == "MIN"))) {
+                $sum += $normal[$k];
+              }
             }
           }
         }
@@ -227,17 +241,19 @@
   for ($i = 0; $i < count($matrix); $i++) {
     for ($j = 0; $j < count($matrix); $j++) {
       $dif  = array();
-      //for ($k = 0; $k < count($matrix[$i]); $k++) {
-        if ($i != $j) {
-          for ($l = 0; $l < count($matrix[0]); $l++) {
-            //if ($meta[$l] == 1) {
-              $dif[$l] = ($matrix[$j][$l] - $matrix[$i][$l]) / $omega[$l];
-            //} else if ($meta[$l] == -1) {
-              //$dif[$l] = ($matrix[$i][$l] - $matrix[$j][$l]) / $omega[$l];
-            //}  
+      if ($i != $j) {
+        for ($k = 0; $k < count($matrix[0]); $k++) {
+          if ($meta == null) {
+            $dif[$k] = ($matrix[$j][$k] - $matrix[$i][$k]) / $omega[$k];
+          } else {
+            if ($meta[$k] == "MAX") {
+              $dif[$k] = ($matrix[$j][$k] - $matrix[$i][$k]) / $omega[$k];
+            } else if ($meta[$k] == "MIN") {
+              $dif[$k] = ($matrix[$i][$k] - $matrix[$j][$k]) / $omega[$k];
+            }
           }
         }
-      //}
+      }
       if (count($dif) > 0) {
         $maxPositive = max($dif);
         if ($maxPositive < 0) {
@@ -286,6 +302,7 @@
 </table>
 <?php // Umbrais
   $sumP = 0;
+  $find = 0;
   for ($i = 0; $i < count($matConcord); $i++) {
     for ($j = 0; $j < count($matConcord[$i]); $j++) {
       $sumP += $matConcord[$i][$j];
@@ -297,12 +314,12 @@
   bubbleSort($concordance);
   for ($i = 0; $i < count($concordance); $i++) {
     if ($concordance[$i] > $sumP) {
-      $result = $concordance[$i];
+      $find = $concordance[$i];
       break;
     }    
   }
-  $pl = $sumP;
-  $pr = $result;
+  $pl = isset($_GET['prefere']) ? ($_GET['prefere'] / 100) : $sumP;
+  $pr = $find;
   $sumP = 0;
   for ($i = 0; $i < count($matDiscord); $i++) {
     for ($j = 0; $j < count($matDiscord[$i]); $j++) {
@@ -317,12 +334,12 @@
   bubbleSort($discordance);
   for ($i = count($discordance)-1; $i >= 0  ; $i--) {
     if ($discordance[$i] < $sumP) {
-      $result = $discordance[$i];
+      $find = $discordance[$i];
       break;
     }    
   }
-  $ql = $sumP;
-  $qr = $result;
+  $ql = isset($_GET['indifere']) ? ($_GET['indifere'] / 100) : $sumP;
+  $qr = $find;
 ?>    
 <h5>Umbral da Preferência:</h5>
 <ol>
