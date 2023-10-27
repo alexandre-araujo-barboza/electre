@@ -310,7 +310,7 @@
   }
   $n = count($matConcord);
   $div = ($n * ($n -1));
-  $sumP /= $div;
+  $sumP = isset($_GET['prefere']) ? ($_GET['prefere'] / 100) : $sumP / $div; // easter egg!
   bubbleSort($concordance);
   for ($i = 0; $i < count($concordance); $i++) {
     if ($concordance[$i] > $sumP) {
@@ -318,9 +318,10 @@
       break;
     }    
   }
-  $pl = isset($_GET['prefere']) ? ($_GET['prefere'] / 100) : $sumP;
+  $pl = $sumP;
   $pr = $find;
   $sumP = 0;
+  $find = 0;
   for ($i = 0; $i < count($matDiscord); $i++) {
     for ($j = 0; $j < count($matDiscord[$i]); $j++) {
       if (is_numeric($matDiscord[$i][$j])) {
@@ -330,7 +331,7 @@
   }
   $n = count($matDiscord);
   $div = ($n * ($n -1));
-  $sumP /= $div;
+  $sumP = isset($_GET['indifere']) ? ($_GET['indifere'] / 100) : $sumP / $div;  // easter egg!
   bubbleSort($discordance);
   for ($i = count($discordance)-1; $i >= 0  ; $i--) {
     if ($discordance[$i] < $sumP) {
@@ -338,7 +339,7 @@
       break;
     }    
   }
-  $ql = isset($_GET['indifere']) ? ($_GET['indifere'] / 100) : $sumP;
+  $ql = $sumP;
   $qr = $find;
 ?>    
 <h5>Umbral da Preferência:</h5>
