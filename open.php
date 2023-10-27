@@ -62,7 +62,14 @@
           <?php if ($col == 0) : ?>
             <?= $valor ?>
           <?php else :?>
-            <input type="number" step="any" name="crit<?=$i+1?><?=$col?>" value="<?= $valor ?>"/>
+            <?php if ($rows[$i]['alternativa'] == 'meta') : ?>
+              <select name="crit<?=$i+1?><?=$col?>">
+                <option value="1" <?= $rows[$i][$chave] == 1 ? 'selected' : '' ?>>MAX</option>
+                <option value="-1" <?= $rows[$i][$chave] == -1 ? 'selected' : '' ?>>MIN</option>
+              </select>  
+            <?php else : ?>
+              <input type="number" step="any" name="crit<?=$i+1?><?=$col?>" value="<?= $valor ?>"/>
+            <?php endif; ?>    
           <?php endif; ?>    
         </td>
         <?php
@@ -72,7 +79,7 @@
       </tr>
     <?php endfor ;?>
     <tr>
-      <td style="text-align:center;" colspan=<?= $span ?>>
+      <td style="text-align:center;" colspan=<?= $span ?>><br />
         <input type="submit" value="Salvar" style="padding-left:12px;padding-right:12px;" />&nbsp;
         <input type="button" value="Executar" style="padding-left:12px;padding-right:12px;" onclick="javascript:location.href='run.php?table=<?= $_GET['table'] ?>'"/>
       </td>
