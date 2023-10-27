@@ -1,9 +1,7 @@
-<!DOCTYPE html>
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="author" content="Alexandre Araujo Barbosa">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Electre</title>
 </head>
 <body>
@@ -38,12 +36,6 @@
   </form>
 <?php else : ?>
   <?php if (isset($_POST['rows']) && isset($_POST['cols'])) : ?>
-    <?php if ((empty($_POST['rows']) || $_POST['rows'] < 2) || (empty($_POST['cols']) || $_POST['cols'] < 2)) :?>
-      <span style="color:red;">Operação inválida!</span>
-      <?php
-        exit;
-      ?>
-    <?php endif ;?>
     <form method="post" action="" accept-charset="UTF-8">
     <h4>Propriedades da matriz:</h4>
     <table style="border:0;">
@@ -113,6 +105,23 @@
         $result = mysqli_query($connection, $sql);
         if (!$result) {
           die("A inclusão do peso falhou: ".mysqli_error($connection));
+        }
+        $sql  = "INSERT INTO " . $name . "(alternativa) VALUES ('meta')"; 
+        $result = mysqli_query($connection, $sql);
+        if (!$result) {
+          die("A inclusão da meta falhou: ".mysqli_error($connection));
+        }
+        $sql = "UPDATE " . $name . " SET "; 
+        foreach ($_POST as $chave => $valor) {
+          if (substr($chave, 0, 1) == "C") {
+            $sql .= "`" . $valor . "` = " . "1, ";
+          }
+        }
+        $sql = substr($sql, 0, -2);
+        $sql .= " WHERE alternativa = 'meta'";
+        $result = mysqli_query($connection, $sql);
+        if (!$result) {
+          die("A alteração da meta falhou: ".mysqli_error($connection));
         }    
       }
     ?>
